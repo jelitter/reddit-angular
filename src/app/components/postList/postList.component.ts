@@ -9,16 +9,16 @@ import Post from "../../models/Post";
 })
 export class PostListComponent implements OnInit {
   private AUTO_UPDATE_INTERVAL: number = 60000;
-  private title: string;
   private postsBackup: Post[]; // Holds a copy of the fetched posts so it can be restored when filtering
-  private posts: Post[];
   private lastUpdated: number;
   private elapsed: number; // seconds since last fetch
   private interval; // auto fetch posts
   private timer; // update timer in page header
   private autoUpdate: boolean;
-  private fetching: boolean;
-  private filterText: string; // ngModel from input field
+  title: string;
+  posts: Post[];
+  fetching: boolean;
+  filterText: string; // ngModel from input field
 
   constructor(private dataService: DataService) {
     this.title = "Reddit: Angular 2+ ";
@@ -29,7 +29,7 @@ export class PostListComponent implements OnInit {
 
   emptyPosts = () => {
     this.posts = new Array<Post>(25);
-    const emptyPost: Post = { title: "...", visible: true };
+    const emptyPost: Post = { title: "...", body: "...", visible: true };
     this.posts.fill(emptyPost, 0, 25);
   };
 
@@ -82,12 +82,12 @@ export class PostListComponent implements OnInit {
   getPosts = () => {
     this.fetching = true;
     this.elapsed = 0;
+    this.lastUpdated = new Date().getTime();
     this.dataService.getPosts().subscribe(posts => {
       const unsortedPosts = posts.data.children.map(x => this.getPost(x.data));
       // Sorting by creation date, decending. New posts will be shown first
       this.posts = unsortedPosts.sort((a, b) => b.creation - a.creation);
       this.postsBackup = [...this.posts];
-      this.lastUpdated = new Date().getTime();
       this.fetching = false;
     });
   };
@@ -105,7 +105,9 @@ export class PostListComponent implements OnInit {
   textEntered = () => {
     this.posts = this.postsBackup.filter(
       p =>
-        p.title.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) != -1
+        p.title.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) !=
+          -1 ||
+        p.body.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) != -1
     );
   };
 

@@ -1,18 +1,17 @@
 import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { FormsModule } from "@angular/forms";
-
+import { DataService } from "./services/data/data.service";
 import { AppComponent } from "./app.component";
+import { PostComponent } from "./components/post/post.component";
 import { PostListComponent } from "./components/postList/postList.component";
 
-import { DataService } from "./services/data/data.service";
-import { PostComponent } from './components/post/post.component';
-
 @NgModule({
-  declarations: [AppComponent, PostListComponent, PostComponent],
+  declarations: [AppComponent, PostComponent, PostListComponent],
   imports: [BrowserModule, HttpModule, FormsModule],
   providers: [DataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {}
