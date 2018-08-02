@@ -13,7 +13,7 @@
     <div class="header-bottom">
       <div class="filter-box">
         <input type="text" [(ngModel)]="filterText" name="filterText" placeholder="Filter by title" (input)="textEntered()" />
-        <div class="input-desc" *ngIf="filterText">Posts with title containing: {{filterText}}</div>
+        <div class="input-desc" *ngIf="filterText">{{posts.length > 0 ? posts.length : 'No'}} posts with title containing: {{filterText}}</div>
       </div>
       <div>
         <input type="checkbox" id="auto-update-checkbox" (click)="toggleAutoUpdate()">
