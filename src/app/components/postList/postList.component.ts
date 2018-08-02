@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
+
 import Post from "../../models/Post";
 
 @Component({
@@ -9,17 +10,21 @@ import Post from "../../models/Post";
 })
 export class PostListComponent implements OnInit {
   title: string;
+  postsBackup: Post[];
   posts: Post[];
   lastUpdated: number;
   elapsed: number;
   private interval;
   private timer;
   autoUpdate: boolean;
+  fetching: boolean;
+  filterText: string;
 
   constructor(private dataService: DataService) {
     this.title = "Reddit: Angular 2+ ";
 
     // Creating 25 empty posts to display while fetching
+    this.fetching = true;
     this.autoUpdate = false;
     this.emptyPosts();
   }
@@ -103,14 +108,16 @@ export class PostListComponent implements OnInit {
   }
 
   getPosts = () => {
+    this.fetching = true;
     this.elapsed = 0;
     this.dataService.getPosts().subscribe(posts => {
       let unsortedPosts = posts.data.children.map(x => this.getPost(x.data));
       // New posts will be shown first
       this.posts = unsortedPosts.sort((a, b) => b.creation - a.creation);
+      this.postsBackup = [...this.posts];
       this.lastUpdated = new Date().getTime();
-      console.log("Last updated", this.lastUpdated);
-      console.log(this.posts);
+      this.fetching = false;
+      // console.log(this.posts);
     });
   };
 
@@ -131,6 +138,13 @@ export class PostListComponent implements OnInit {
     } else {
       clearInterval(this.interval);
     }
+  };
+
+  textEntered = () => {
+    this.posts = this.postsBackup.filter(
+      p =>
+        p.title.toLowerCase().indexOf(this.filterText.toLocaleLowerCase()) != -1
+    );
   };
 
   voteUp(id) {

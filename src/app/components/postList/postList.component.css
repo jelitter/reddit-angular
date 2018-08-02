@@ -3,18 +3,18 @@
 * {
   --primary: 255, 205, 210;
   --light: #ffffff;
-  --dark: #cb9ca1;
+  --dark: 203, 156, 161;
 
-  --title: linear-gradient(to bottom, var(--dark), rgba(var(--primary)));
+  --title: linear-gradient(to bottom, rgba(var(--dark)), rgba(var(--primary)));
 
   font-family: Arial, Helvetica, sans-serif;
   transition: 200ms;
   vertical-align: middle;
 }
 
-html {
-  background: var(--main-bg-color);
-}
+/* html {
+  background: rgb(var(--dark));
+} */
 
 a {
   text-decoration: none;
@@ -25,7 +25,7 @@ a:hover {
 }
 
 .container {
-  background: #ddd;
+  background: rgba(var(--primary), 0.3);
   padding: 1rem;
   padding-left: 15%;
   padding-right: 15%;
@@ -33,7 +33,7 @@ a:hover {
 
 #post-list-header {
   background: var(--title);
-  border-left: solid 0.5rem var(--dark);
+  border-left: solid 0.5rem rgba(var(--dark));
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   color: white;
   display: grid;
@@ -52,10 +52,27 @@ a:hover {
 }
 
 .header-bottom {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-gap: 0.5rem;
   font-size: 0.8rem;
   text-align: right;
   padding-top: 1rem;
   padding-bottom: 0;
+}
+
+.filter-box {
+  text-align: left;
+}
+
+.filter-box input {
+  font-size: 1.5rem;
+  padding-top: 0;
+}
+
+.input-desc {
+  padding: 0.5rem 0rem 0.5rem 0rem;
+  font-size: 1rem;
 }
 
 .header-bottom checkbox {
@@ -74,7 +91,7 @@ a:hover {
 }
 
 .refresh-icon {
-  background: rgba(var(--primary), 0.75);
+  background: rgba(var(--primary), 0.25);
   border-radius: 50%;
   color: limegreen;
   cursor: pointer;
@@ -85,8 +102,16 @@ a:hover {
   width: 3rem;
 }
 
+.refresh-icon:hover {
+  background: rgba(var(--primary), 0.75);
+  color: lime;
+}
+.refresh-icon:active {
+  transform: scale(1.2);
+}
+
 .post-card {
-  border-left: solid 0.25rem var(--dark);
+  border-left: solid 0.3rem rgba(var(--dark));
   box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   margin-bottom: 10px;
   min-width: 400px;
@@ -126,7 +151,6 @@ a:hover {
 .post-title {
   align-content: center;
   background: var(--title);
-  /* border-left: solid 0.25rem var(--dark); */
   display: grid;
   font-size: 1.25rem;
   grid-gap: 0.5rem;

@@ -5,15 +5,21 @@
         {{ title }}
       </div>
       <div class="refresh">
-        <span *ngIf="!elapsed">Fetching posts...</span>
-        <span *ngIf="elapsed">Updated {{elapsed *1000 | date: 'mm:ss' }} ago</span>
+        <span *ngIf="fetching">Fetching posts...</span>
+        <span *ngIf="!fetching">Updated {{elapsed *1000 | date: 'mm:ss' }} ago</span>
         <span class="refresh-icon" (click)="getPosts()">⟳</span>
       </div>
     </div>
     <div class="header-bottom">
-      <input type="checkbox" id="auto-update-checkbox" (click)="toggleAutoUpdate()">
-      <span>Auto update
-        <br />every min.</span>
+      <div class="filter-box">
+        <input type="text" [(ngModel)]="filterText" name="filterText" placeholder="Filter by title" (input)="textEntered()" />
+        <div class="input-desc" *ngIf="filterText">Posts with title containing: {{filterText}}</div>
+      </div>
+      <div>
+        <input type="checkbox" id="auto-update-checkbox" (click)="toggleAutoUpdate()">
+        <span>Auto update
+          <br />every min.</span>
+      </div>
     </div>
   </div>
 
@@ -21,7 +27,7 @@
     <h2>Loading...</h2>
   </div>
 
-  <div *ngFor="let post of posts">
+  <div *ngFor="let post of posts" ng-app="ngAnimate">
     <div [ngClass]="post.body && post.maximized ? 'post-card post-expanded' : 'post-card post-collapsed'" *ngIf=post.visible>
       <div [ngClass]="post.body && post.maximized ? 'post-title post-expanded' : 'post-title post-collapsed'">
         <a href={{post.permalink}} target="_blank">{{post.title}}</a>
