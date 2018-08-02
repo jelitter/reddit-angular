@@ -4,6 +4,7 @@
   --primary: 255, 205, 210;
   --light: #ffffff;
   --dark: 203, 156, 161;
+  --bg: rgba(183, 226, 254, 0.3);
 
   --title: linear-gradient(to bottom, rgba(var(--dark)), rgba(var(--primary)));
 
@@ -25,7 +26,7 @@ a:hover {
 }
 
 .container {
-  background: rgba(var(--primary), 0.3);
+  background: var(--bg);
   padding: 1rem;
   padding-left: 15%;
   padding-right: 15%;
@@ -62,16 +63,18 @@ a:hover {
 }
 
 .filter-box {
+  padding-bottom: 1rem;
   text-align: left;
 }
 
 .filter-box input {
+  padding: 0.2rem;
   font-size: 1.5rem;
   padding-top: 0;
 }
 
 .input-desc {
-  padding: 0.5rem 0rem 0.5rem 0rem;
+  padding: 1rem 0rem 0rem 0rem;
   font-size: 1rem;
 }
 

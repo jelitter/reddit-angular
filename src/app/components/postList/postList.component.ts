@@ -94,8 +94,8 @@ export class PostListComponent implements OnInit {
       visible: true,
       maximized: true,
       id,
-      title,
-      body,
+      title: cleanHtmlEntities(title),
+      body: cleanHtmlEntities(body),
       author,
       subreddit,
       permalink: `http://www.reddit.com${permalink}`,
@@ -163,4 +163,13 @@ export class PostListComponent implements OnInit {
     this.getPosts();
     this.timer = setInterval(this.updateTime, 1000);
   }
+}
+
+// Helper function to cleanup HTML entities from posts
+function cleanHtmlEntities(str) {
+  return String(str)
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"');
 }
