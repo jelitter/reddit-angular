@@ -23,47 +23,8 @@
     </div>
   </div>
 
-  <div class="loader" *ngIf="!posts">
-    <h2>Loading...</h2>
+  <div *ngFor="let post of posts">
+    <app-post [post]=post></app-post>
   </div>
 
-  <div *ngFor="let post of posts" ng-app="ngAnimate">
-    <div [ngClass]="post.body && post.maximized ? 'post-card post-expanded' : 'post-card post-collapsed'" *ngIf=post.visible>
-      <div [ngClass]="post.body && post.maximized ? 'post-title post-expanded' : 'post-title post-collapsed'">
-        <a href={{post.permalink}} target="_blank">{{post.title}}</a>
-        <span class="button-group">
-          <span class="spacing" *ngIf="!post.body"></span>
-          <span class="post-button post-minimize" *ngIf="post.maximized && post.body" (click)="toggleMaximized(post.id)">🗕</span>
-          <span class="post-button post-maximize" *ngIf="!post.maximized && post.body" (click)="toggleMaximized(post.id)">🗖</span>
-          <span class="post-button post-hide" (click)="hide(post.id)">✕</span>
-        </span>
-      </div>
-      <div class="post-body" *ngIf="post.body && post.maximized">
-        <div class="post-main">
-          <span class="post-image" *ngIf="post.image.url">
-            <img src={{post.image.url}} height={{post.image.height}} width={{post.image.width}} alt="" />
-          </span>
-          <span *ngIf="!post.image.url"></span>
-          <div class="post-text">{{post.body}}</div>
-        </div>
-        <div class="post-footer">
-          <div class="post-date">
-            Posted on {{post.creation * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}
-          </div>
-          <div class="post-comments">
-            <span class="comment-icon">💬</span>
-            <span>{{ post.comments }}</span>
-          </div>
-          <div class="post-votes-up" (click)="voteUp(post.id)">
-            <span class="vote-up-arrow">⬆</span>
-            <span>{{ post.votes.ups }}</span>
-          </div>
-          <div class="post-votes-down" (click)="voteDown(post.id)">
-            <span class="vote-down-arrow">⬇</span>
-            <span>{{ post.votes.downs }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>

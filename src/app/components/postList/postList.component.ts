@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { DataService } from "../../services/data/data.service";
-
 import Post from "../../models/Post";
 
 @Component({
@@ -9,57 +8,30 @@ import Post from "../../models/Post";
   styleUrls: ["./postList.component.css"]
 })
 export class PostListComponent implements OnInit {
-  title: string;
-  postsBackup: Post[];
-  posts: Post[];
-  lastUpdated: number;
-  elapsed: number;
-  private interval;
-  private timer;
-  autoUpdate: boolean;
-  fetching: boolean;
-  filterText: string;
+  private AUTO_UPDATE_INTERVAL: number = 60000;
+  private title: string;
+  private postsBackup: Post[]; // Holds a copy of the fetched posts so it can be restored when filtering
+  private posts: Post[];
+  private lastUpdated: number;
+  private elapsed: number; // seconds since last fetch
+  private interval; // auto fetch posts
+  private timer; // update timer in page header
+  private autoUpdate: boolean;
+  private fetching: boolean;
+  private filterText: string; // ngModel from input field
 
   constructor(private dataService: DataService) {
     this.title = "Reddit: Angular 2+ ";
-
-    // Creating 25 empty posts to display while fetching
     this.fetching = true;
     this.autoUpdate = false;
-    this.emptyPosts();
+    this.emptyPosts(); // Creating 25 empty posts to display while fetching
   }
 
-  emptyPosts() {
-    this.posts = [];
-    for (let i = 0; i < 25; i++) {
-      this.posts.push({
-        id: "",
-        title: "...",
-        body: "",
-        author: "",
-        subreddit: "",
-        permalink: "",
-        comments: 0,
-        creation: 0,
-        visible: true,
-        maximized: true,
-        image: {
-          url: "",
-          width: 0,
-          height: 0
-        },
-        thumbnail: {
-          url: "",
-          width: 0,
-          height: 0
-        },
-        votes: {
-          ups: 0,
-          downs: 0
-        }
-      });
-    }
-  }
+  emptyPosts = () => {
+    this.posts = new Array<Post>(25);
+    const emptyPost: Post = { title: "...", visible: true };
+    this.posts.fill(emptyPost, 0, 25);
+  };
 
   /**
    * We extract only the fields we need for each post in JSON data
@@ -111,30 +83,20 @@ export class PostListComponent implements OnInit {
     this.fetching = true;
     this.elapsed = 0;
     this.dataService.getPosts().subscribe(posts => {
-      let unsortedPosts = posts.data.children.map(x => this.getPost(x.data));
-      // New posts will be shown first
+      const unsortedPosts = posts.data.children.map(x => this.getPost(x.data));
+      // Sorting by creation date, decending. New posts will be shown first
       this.posts = unsortedPosts.sort((a, b) => b.creation - a.creation);
       this.postsBackup = [...this.posts];
       this.lastUpdated = new Date().getTime();
       this.fetching = false;
-      // console.log(this.posts);
     });
   };
-
-  hide(id) {
-    this.posts.find(post => post.id === id).visible = false;
-  }
-
-  toggleMaximized(id) {
-    this.posts.find(post => post.id === id).maximized = !this.posts.find(
-      post => post.id === id
-    ).maximized;
-  }
 
   toggleAutoUpdate = () => {
     this.autoUpdate = !this.autoUpdate;
     if (this.autoUpdate) {
-      this.interval = setInterval(this.getPosts, 60000);
+      this.getPosts();
+      this.interval = setInterval(this.getPosts, this.AUTO_UPDATE_INTERVAL);
     } else {
       clearInterval(this.interval);
     }
@@ -147,14 +109,6 @@ export class PostListComponent implements OnInit {
     );
   };
 
-  voteUp(id) {
-    this.posts.find(post => post.id === id).votes.ups++;
-  }
-
-  voteDown(id) {
-    this.posts.find(post => post.id === id).votes.downs++;
-  }
-
   updateTime = () => {
     this.elapsed = Math.floor((new Date().getTime() - this.lastUpdated) / 1000);
   };
@@ -166,10 +120,9 @@ export class PostListComponent implements OnInit {
 }
 
 // Helper function to cleanup HTML entities from posts
-function cleanHtmlEntities(str) {
-  return String(str)
+const cleanHtmlEntities = str =>
+  String(str)
     .replace(/&amp;/g, "&")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&quot;/g, '"');
-}

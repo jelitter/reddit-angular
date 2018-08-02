@@ -7,9 +7,10 @@ import { AppComponent } from "./app.component";
 import { PostListComponent } from "./components/postList/postList.component";
 
 import { DataService } from "./services/data/data.service";
+import { PostComponent } from './components/post/post.component';
 
 @NgModule({
-  declarations: [AppComponent, PostListComponent],
+  declarations: [AppComponent, PostListComponent, PostComponent],
   imports: [BrowserModule, HttpModule, FormsModule],
   providers: [DataService],
   bootstrap: [AppComponent]
