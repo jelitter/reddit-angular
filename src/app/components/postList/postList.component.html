@@ -1,3 +1,45 @@
-<div id="post-list-title">
-  {{ title }}
+<div class="container">
+  <div id="post-list-header">
+    <div id="post-list-title">
+      {{ title }}
+    </div>
+    <div class="refresh">
+      <span class="refresh-icon" (click)="getPosts()">⟳</span>
+      <span>Last updated {{elapsed}} secs. ago</span>
+    </div>
+  </div>
+
+  <div class="loader" *ngIf="!posts">
+    <h2>Loading...</h2>
+  </div>
+
+  <div *ngFor="let post of posts">
+    <div class="post-card" *ngIf=post.visible>
+      <div class="post-title">
+        <a href={{post.permalink}} target="_blank">{{post.title}}</a>
+        <span class="button-group">
+          <span class="spacing" *ngIf="!post.body"></span>
+          <span class="post-button post-minimize" *ngIf="post.maximized && post.body" (click)="toggleMaximized(post.id)">🗕</span>
+          <span class="post-button post-maximize" *ngIf="!post.maximized && post.body" (click)="toggleMaximized(post.id)">🗖</span>
+          <span class="post-button post-hide" (click)="hide(post.id)">✕</span>
+        </span>
+      </div>
+      <div class="post-body" *ngIf="post.body && post.maximized">
+        <div class="post-text">{{post.body}}</div>
+        <div class="post-footer">
+          <div class="post-date">
+            Posted on {{post.creation * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}
+          </div>
+          <div class="post-votes-up" (click)="voteUp(post.id)">
+            <span class="vote-up-arrow">⬆</span>
+            <span>{{ post.votes.ups }}</span>
+          </div>
+          <div class="post-votes-down" (click)="voteDown(post.id)">
+            <span class="vote-down-arrow">⬇</span>
+            <span>{{ post.votes.downs }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
