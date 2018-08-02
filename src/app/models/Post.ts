@@ -1,5 +1,5 @@
 export default interface Post {
-  id: number;
+  id: string;
   title: string;
   body: string;
   author: string;
@@ -8,6 +8,7 @@ export default interface Post {
   creation: number;
   visible: boolean;
   maximized: boolean;
+  comments: number;
   image: {
     url: string;
     width: number;

@@ -14,7 +14,7 @@ import { DataService } from './services/data/data.service'
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

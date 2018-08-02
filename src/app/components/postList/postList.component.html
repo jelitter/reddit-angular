@@ -1,11 +1,19 @@
 <div class="container">
   <div id="post-list-header">
-    <div id="post-list-title">
-      {{ title }}
+    <div class="header-top">
+      <div id="post-list-title">
+        {{ title }}
+      </div>
+      <div class="refresh">
+        <span *ngIf="!elapsed">Fetching posts...</span>
+        <span *ngIf="elapsed">Updated {{elapsed *1000 | date: 'mm:ss' }} ago</span>
+        <span class="refresh-icon" (click)="getPosts()">⟳</span>
+      </div>
     </div>
-    <div class="refresh">
-      <span class="refresh-icon" (click)="getPosts()">⟳</span>
-      <span>Last updated {{elapsed}} secs. ago</span>
+    <div class="header-bottom">
+      <input type="checkbox" id="auto-update-checkbox" (click)="toggleAutoUpdate()">
+      <span>Auto update
+        <br />every min.</span>
     </div>
   </div>
 
@@ -14,8 +22,8 @@
   </div>
 
   <div *ngFor="let post of posts">
-    <div class="post-card" *ngIf=post.visible>
-      <div class="post-title">
+    <div [ngClass]="post.body && post.maximized ? 'post-card post-expanded' : 'post-card post-collapsed'" *ngIf=post.visible>
+      <div [ngClass]="post.body && post.maximized ? 'post-title post-expanded' : 'post-title post-collapsed'">
         <a href={{post.permalink}} target="_blank">{{post.title}}</a>
         <span class="button-group">
           <span class="spacing" *ngIf="!post.body"></span>
@@ -25,10 +33,20 @@
         </span>
       </div>
       <div class="post-body" *ngIf="post.body && post.maximized">
-        <div class="post-text">{{post.body}}</div>
+        <div class="post-main">
+          <span class="post-image" *ngIf="post.image.url">
+            <img src={{post.image.url}} height={{post.image.height}} width={{post.image.width}} alt="" />
+          </span>
+          <span *ngIf="!post.image.url"></span>
+          <div class="post-text">{{post.body}}</div>
+        </div>
         <div class="post-footer">
           <div class="post-date">
             Posted on {{post.creation * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}
+          </div>
+          <div class="post-comments">
+            <span class="comment-icon">💬</span>
+            <span>{{ post.comments }}</span>
           </div>
           <div class="post-votes-up" (click)="voteUp(post.id)">
             <span class="vote-up-arrow">⬆</span>

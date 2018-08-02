@@ -12,20 +12,29 @@ export class PostListComponent implements OnInit {
   posts: Post[];
   lastUpdated: number;
   elapsed: number;
+  private interval;
+  private timer;
+  autoUpdate: boolean;
 
   constructor(private dataService: DataService) {
     this.title = "Reddit: Angular 2+ ";
 
     // Creating 25 empty posts to display while fetching
+    this.autoUpdate = false;
+    this.emptyPosts();
+  }
+
+  emptyPosts() {
     this.posts = [];
     for (let i = 0; i < 25; i++) {
       this.posts.push({
-        id: i,
+        id: "",
         title: "...",
         body: "",
         author: "",
         subreddit: "",
         permalink: "",
+        comments: 0,
         creation: 0,
         visible: true,
         maximized: true,
@@ -50,13 +59,15 @@ export class PostListComponent implements OnInit {
   /**
    * We extract only the fields we need for each post in JSON data
    */
-  getPost(posts, index): Post {
+  getPost(posts): Post {
     const {
+      id,
       title,
       selftext: body,
       author,
       subreddit,
       permalink,
+      num_comments: comments,
       ups,
       downs,
       preview,
@@ -76,14 +87,14 @@ export class PostListComponent implements OnInit {
 
     return {
       visible: true,
-      maximized: false,
-      id: index,
+      maximized: true,
+      id,
       title,
       body,
       author,
       subreddit,
-      // permalink : 'http://www.reddit.com' + permalink,
       permalink: `http://www.reddit.com${permalink}`,
+      comments,
       votes,
       creation,
       thumbnail,
@@ -91,32 +102,43 @@ export class PostListComponent implements OnInit {
     };
   }
 
-  getPosts() {
+  getPosts = () => {
+    this.elapsed = 0;
     this.dataService.getPosts().subscribe(posts => {
-      this.posts = posts.data.children.map((x, index) => {
-        this.lastUpdated = new Date().getTime();
-        return this.getPost(x.data, index);
-      });
-      console.log("get posts");
-
-      //console.log(JSON.stringify(this.posts, null, 2));
+      let unsortedPosts = posts.data.children.map(x => this.getPost(x.data));
+      // New posts will be shown first
+      this.posts = unsortedPosts.sort((a, b) => b.creation - a.creation);
+      this.lastUpdated = new Date().getTime();
+      console.log("Last updated", this.lastUpdated);
+      console.log(this.posts);
     });
-  }
+  };
 
   hide(id) {
-    this.posts[id].visible = false;
+    this.posts.find(post => post.id === id).visible = false;
   }
 
   toggleMaximized(id) {
-    this.posts[id].maximized = !this.posts[id].maximized;
+    this.posts.find(post => post.id === id).maximized = !this.posts.find(
+      post => post.id === id
+    ).maximized;
   }
 
+  toggleAutoUpdate = () => {
+    this.autoUpdate = !this.autoUpdate;
+    if (this.autoUpdate) {
+      this.interval = setInterval(this.getPosts, 60000);
+    } else {
+      clearInterval(this.interval);
+    }
+  };
+
   voteUp(id) {
-    this.posts[id].votes.ups++;
+    this.posts.find(post => post.id === id).votes.ups++;
   }
 
   voteDown(id) {
-    this.posts[id].votes.downs++;
+    this.posts.find(post => post.id === id).votes.downs++;
   }
 
   updateTime = () => {
@@ -125,6 +147,6 @@ export class PostListComponent implements OnInit {
 
   ngOnInit() {
     this.getPosts();
-    setInterval(this.updateTime, 1000);
+    this.timer = setInterval(this.updateTime, 1000);
   }
 }
