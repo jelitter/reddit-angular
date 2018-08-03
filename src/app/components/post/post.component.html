@@ -3,9 +3,9 @@
     <a href={{post.permalink}} target="_blank">{{post.title}}</a>
     <span class="button-group">
       <span class="spacing" *ngIf="!post.body"></span>
-      <span class="post-button post-minimize" *ngIf="post.maximized && post.body" (click)="toggleMaximized(post.id)">🗕</span>
-      <span class="post-button post-maximize" *ngIf="!post.maximized && post.body" (click)="toggleMaximized(post.id)">🗖</span>
-      <span class="post-button post-hide" (click)="hide(post.id)">✕</span>
+      <span class="post-button post-minimize" *ngIf="post.maximized && post.body" (click)="toggleMaximized()">🗕</span>
+      <span class="post-button post-maximize" *ngIf="!post.maximized && post.body" (click)="toggleMaximized()">🗖</span>
+      <span class="post-button post-hide" (click)="hide()">✕</span>
     </span>
   </div>
   <div class="post-body" *ngIf="post.body && post.maximized">
