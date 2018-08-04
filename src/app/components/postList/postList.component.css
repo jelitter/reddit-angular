@@ -90,13 +90,12 @@ a:hover {
   color: lime;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
   .container {
     background: var(--bg);
     width: calc(100% - 10px);
     margin: 0px;
     padding: 4px;
-    border: 1px solid limegreen;
   }
   #post-list-header {
     font-size: 1.5rem;
