@@ -91,7 +91,6 @@ export class PostListComponent implements OnInit {
       this.posts = unsortedPosts.sort((a, b) => b.creation - a.creation);
       this.postsBackup = [...this.posts];
       this.fetching = false;
-      console.log(this.posts);
     });
   };
 
