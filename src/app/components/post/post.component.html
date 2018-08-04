@@ -1,6 +1,6 @@
 <div [ngClass]="post.body && post.maximized ? 'post-card post-expanded' : 'post-card post-collapsed'" *ngIf=post.visible>
   <div [ngClass]="post.body && post.maximized ? 'post-title post-expanded' : 'post-title post-collapsed'">
-    <a href={{post.permalink}} target="_blank">{{post.title}}</a>
+    <a href={{post.link}} target="_blank">{{post.title}}</a>
     <span class="button-group">
       <span class="spacing" *ngIf="!post.body"></span>
       <span class="post-button post-minimize" *ngIf="post.maximized && post.body" (click)="toggleMaximized()">🗕</span>

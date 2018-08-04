@@ -4,6 +4,7 @@ export default interface Post {
   body?: string;
   author?: string;
   subreddit?: string;
+  link?: string;
   permalink?: string;
   creation?: number;
   visible?: boolean;

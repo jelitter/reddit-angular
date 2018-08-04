@@ -1,11 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { DataService } from "../../services/data/data.service";
-import Post from "../../models/Post";
+import { Component, OnInit } from '@angular/core';
+import { DataService } from '../../services/data/data.service';
+import Post from '../../models/Post';
 
 @Component({
-  selector: "app-post-list",
-  templateUrl: "./postList.component.html",
-  styleUrls: ["./postList.component.css"]
+  selector: 'app-post-list',
+  templateUrl: './postList.component.html',
+  styleUrls: ['./postList.component.css']
 })
 export class PostListComponent implements OnInit {
   private AUTO_UPDATE_INTERVAL: number = 60000;
@@ -21,7 +21,7 @@ export class PostListComponent implements OnInit {
   filterText: string; // ngModel from input field
 
   constructor(private dataService: DataService) {
-    this.title = "Reddit: Angular 2+ ";
+    this.title = 'Reddit: Angular 2+ ';
     this.fetching = true;
     this.autoUpdate = false;
     this.emptyPosts(); // Creating 25 empty posts to display while fetching
@@ -29,7 +29,7 @@ export class PostListComponent implements OnInit {
 
   emptyPosts = () => {
     this.posts = new Array<Post>(25);
-    const emptyPost: Post = { title: "...", body: "...", visible: true };
+    const emptyPost: Post = { title: '...', body: '...', visible: true };
     this.posts.fill(emptyPost, 0, 25);
   };
 
@@ -43,6 +43,7 @@ export class PostListComponent implements OnInit {
       selftext: body,
       author,
       subreddit,
+      url: link,
       permalink,
       num_comments: comments,
       ups,
@@ -54,9 +55,9 @@ export class PostListComponent implements OnInit {
       thumbnail_height: thumbHeight
     } = posts;
 
-    const url = preview ? preview.images[0].source.url : "";
-    const width = preview ? preview.images[0].source.width : "";
-    const height = preview ? preview.images[0].source.height : "";
+    const url = preview ? preview.images[0].source.url : '';
+    const width = preview ? preview.images[0].source.width : '';
+    const height = preview ? preview.images[0].source.height : '';
     const image = { url, width, height };
 
     const thumbnail = { url: thumbUrl, width: thumbWidth, height: thumbHeight };
@@ -70,6 +71,7 @@ export class PostListComponent implements OnInit {
       body: cleanHtmlEntities(body),
       author,
       subreddit,
+      link,
       permalink: `http://www.reddit.com${permalink}`,
       comments,
       votes,
@@ -124,7 +126,7 @@ export class PostListComponent implements OnInit {
 // Helper function to cleanup HTML entities from posts
 const cleanHtmlEntities = str =>
   String(str)
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"');
