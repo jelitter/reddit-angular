@@ -114,9 +114,10 @@ a:hover {
 
 .post-footer {
   display: grid;
+  vertical-align: middle;
   grid-gap: 0.5rem;
   grid-template-columns: auto 4rem 4rem 4rem;
-  vertical-align: middle;
+  grid-template-areas: 'date comments voteup votedown';
 }
 
 .post-footer div {
@@ -124,6 +125,7 @@ a:hover {
 }
 
 .post-date {
+  grid-area: date;
   color: var(--dark);
   line-height: 2rem;
   padding: 0rem 0.5rem;
@@ -131,6 +133,7 @@ a:hover {
 }
 
 .post-comments {
+  grid-area: comments;
   -webkit-user-select: none;
   cursor: not-allowed;
   display: grid;
@@ -139,6 +142,13 @@ a:hover {
   text-align: center;
   font-weight: 600;
   opacity: 0.5;
+}
+
+.post-votes-up {
+  grid-area: voteup;
+}
+.post-votes-down {
+  grid-area: votedown;
 }
 
 .post-votes-up,
@@ -186,5 +196,16 @@ a:hover {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr;
     grid-gap: 0.5rem;
+  }
+  .post-body {
+    padding: 0.5rem;
+  }
+  .post-footer {
+    grid-gap: 0.25rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'date date date date'
+      'comments comments voteup votedown';
   }
 }
