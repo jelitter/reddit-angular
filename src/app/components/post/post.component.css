@@ -59,6 +59,8 @@ a:hover {
   padding: 0.5rem;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 1);
   vertical-align: middle;
+  margin-left: 0;
+  padding-left: 0;
 }
 
 .post-title .post-title-collapsed {
@@ -90,6 +92,25 @@ a:hover {
   grid-template-columns: auto 3fr;
   grid-gap: 1rem;
 }
+
+.thumb {
+  left: 0;
+  height: 3rem;
+  width: 3rem;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.thumb:hover {
+  border-radius: 0px;
+}
+
+.icon-title {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: 3rem auto;
+}
+
 .post-image {
   top: 0;
   /* width: 100%; */
