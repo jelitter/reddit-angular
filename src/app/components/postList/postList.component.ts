@@ -60,7 +60,11 @@ export class PostListComponent implements OnInit {
     const height = preview ? preview.images[0].source.height : '';
     const image = { url, width, height };
 
-    const thumbnail = { url: thumbUrl, width: thumbWidth, height: thumbHeight };
+    const thumbnail = {
+      url: thumbUrl.match(/default|self/) ? '' : thumbUrl,
+      width: thumbWidth,
+      height: thumbHeight
+    };
     const votes = { ups, downs };
 
     return {

@@ -1,15 +1,12 @@
 <div [ngClass]="post.body && post.maximized ? 'post-card post-expanded' : 'post-card post-collapsed'" *ngIf=post.visible>
   <div [ngClass]="post.body && post.maximized ? 'post-title post-expanded' : 'post-title post-collapsed'">
     <span class="icon-title">
-
-      <span *ngIf="post.thumbnail && post.thumbnail.url && post.thumbnail.url != 'self'">
+      <span *ngIf="post.thumbnail && post.thumbnail.url ">
         <img src={{post.thumbnail.url}} class="thumb" alt="" />
       </span>
-
-      <span *ngIf="!post.thumbnail || !post.thumbnail.url || post.thumbnail.url == 'self'">
+      <span *ngIf="!post.thumbnail || !post.thumbnail.url ">
         <img src="./web-static/assets/angular.png" class="thumb" alt="" />
       </span>
-
       <span>
         <a href={{post.link}} target="_blank">{{post.title}}</a>
       </span>
