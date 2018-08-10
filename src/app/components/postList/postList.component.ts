@@ -127,22 +127,8 @@ export class PostListComponent implements OnInit {
   }
 }
 
-// Helper functions to cleanup HTML and Markdown from post texts
-String.prototype.replaceAll = function(find, replace) {
-  if (typeof find == 'string') return this.split(find).join(replace);
-  var t = this,
-    i,
-    j;
-  while (
-    typeof (i = find.shift()) == 'string' &&
-    typeof (j = replace.shift()) == 'string'
-  )
-    t = t.replaceAll(i || '', j || '');
-  return t;
-};
-
 const cleanHtmlEntities = str =>
-  str.toString().replaceAll(['&', '<', '"'], ['&amp;', '&lt;', '&quot;']);
+  str.toString().replace(['&', '<', '"'], ['&amp;', '&lt;', '&quot;']);
 
 const cleanMarkdown = src => {
   var h = '',
