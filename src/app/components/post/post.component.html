@@ -24,11 +24,15 @@
         <img src={{post.image.url}} height={{post.image.height}} width={{post.image.width}} alt="" />
       </span>
       <span *ngIf="!post.image.url"></span>
-      <div class="post-text">{{post.body}}</div>
+      <div class="post-text">
+        <span [innerHtml]="post.body"></span>
+      </div>
     </div>
     <div class="post-footer">
       <div class="post-date">
-        Posted on {{post.creation * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}
+        <span class="post-author">
+          <a href="http://www.reddit.com/u/{{post.author}}" target="_blank">{{post.author}}</a>
+        </span> on {{post.creation * 1000 | date:'yyyy-MM-dd HH:mm:ss Z'}}
       </div>
       <div class="post-comments">
         <span class="comment-icon">💬</span>

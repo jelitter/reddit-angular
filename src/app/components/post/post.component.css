@@ -128,8 +128,11 @@ a:hover {
   text-align: justify;
   position: relative;
   max-width: calc(100% - 1rem);
-  overflow-wrap: break-all;
-  word-wrap: break-all;
+  /* overflow-wrap: break-all;
+  word-wrap: break-all; */
+  text-overflow: ellipsis;
+  white-space: pre-wrap;
+  overflow: hidden;
   top: 0;
 }
 
@@ -143,6 +146,11 @@ a:hover {
 
 .post-footer div {
   background: rgba(var(--primary), 0.5);
+}
+
+.post-author * {
+  color: rgba(var(--dark)) !important;
+  font-weight: 600;
 }
 
 .post-date {
