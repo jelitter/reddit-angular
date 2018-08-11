@@ -1,0 +1,1 @@
+@charset "UTF-8";*{--primary:255,205,210;--light:#ffffff;--dark:203,156,161;--bg:rgba(183, 226, 254, 0.3);--title:linear-gradient(to bottom, rgba(var(--dark)), rgba(var(--primary)));--font-size:2rem;font-family:Roboto,sans-serif;transition:.2s;vertical-align:middle}
