@@ -128,7 +128,11 @@ export class PostListComponent implements OnInit {
 }
 
 const cleanHtmlEntities = str =>
-  str.toString().replace(['&', '<', '"'], ['&amp;', '&lt;', '&quot;']);
+  str
+    .toString()
+    .replace('&amp;', '&')
+    .replace('&lt;', '<')
+    .replace('&quot;', '"');
 
 const cleanMarkdown = src => {
   var h = '',

@@ -24,9 +24,7 @@
         <img src={{post.image.url}} height={{post.image.height}} width={{post.image.width}} alt="" />
       </span>
       <span *ngIf="!post.image.url"></span>
-      <div class="post-text">
-        <span [innerHtml]="post.body"></span>
-      </div>
+      <div class="post-text" [innerHtml]="post.body"></div>
     </div>
     <div class="post-footer">
       <div class="post-date">
